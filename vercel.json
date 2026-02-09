@@ -1,9 +1,22 @@
 {
   "version": 2,
+  "buildCommand": "cd server && npm install",
   "builds": [
     {
       "src": "server/server.js",
       "use": "@vercel/node"
+    },
+    {
+      "src": "*.html",
+      "use": "@vercel/static"
+    },
+    {
+      "src": "*.css",
+      "use": "@vercel/static"
+    },
+    {
+      "src": "*.js",
+      "use": "@vercel/static"
     }
   ],
   "routes": [
@@ -14,6 +27,22 @@
     {
       "src": "/health",
       "dest": "server/server.js"
+    },
+    {
+      "src": "/(.*\\.(html|css|js|json|png|jpg|jpeg|gif|ico|svg|woff|woff2|ttf|eot))",
+      "dest": "/$1"
+    },
+    {
+      "src": "/",
+      "dest": "index.html"
+    },
+    {
+      "src": "/leaderboard",
+      "dest": "leaderboard.html"
+    },
+    {
+      "src": "/(.*)",
+      "dest": "index.html"
     }
   ]
 }
