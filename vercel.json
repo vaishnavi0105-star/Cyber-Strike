@@ -1,5 +1,6 @@
 {
   "version": 2,
+  "public": ".",
   "builds": [
     {
       "src": "server/server.js",
@@ -13,18 +14,6 @@
     },
     {
       "src": "/health",
-      "dest": "server/server.js"
-    },
-    {
-      "src": "/leaderboard",
-      "dest": "server/server.js"
-    },
-    {
-      "src": "/(.*\\.(js|css|json|png|jpg|jpeg|gif|ico|svg|woff|woff2|ttf|eot))",
-      "dest": "/$1"
-    },
-    {
-      "src": "/(.*)",
       "dest": "server/server.js"
     }
   ]
