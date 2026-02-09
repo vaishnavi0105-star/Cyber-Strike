@@ -39,8 +39,10 @@
         // For local development, point to local server
         if (!h || h === "localhost" || h === "127.0.0.1" || h === "0.0.0.0") {
           window.CYBER_STRIKE_API_URL = "http://localhost:3001";
+        } else {
+          // Production (Vercel etc.): use same origin so /api/* is routed to the server
+          window.CYBER_STRIKE_API_URL = window.location.origin;
         }
-        // For production (Vercel), use relative paths which route to the server via rewrites
         var apiBase = window.CYBER_STRIKE_API_URL ? window.CYBER_STRIKE_API_URL.replace(/\/$/, "") : "";
         var el = document.getElementById("leaderboardContent");
         function escapeHtml(s) {

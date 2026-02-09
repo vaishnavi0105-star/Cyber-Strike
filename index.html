@@ -219,16 +219,17 @@
             </button>
         </div>
     </div>
-    <!-- Server API: enabled for local dev. Start server with: cd server && npm start -->
+    <!-- Server API: enabled for local dev and production (Vercel). -->
     <script>
       (function() {
         var h = window.location.hostname;
         // For local development, point to local server
         if (!h || h === "localhost" || h === "127.0.0.1" || h === "0.0.0.0") {
           window.CYBER_STRIKE_API_URL = "http://localhost:3001";
+        } else {
+          // Production (Vercel etc.): use same origin so /api/* is routed to the server
+          window.CYBER_STRIKE_API_URL = window.location.origin;
         }
-        // For production (Vercel or other), use relative paths (API_BASE will be empty string)
-        // This allows frontend to call /api/... which Vercel will route to the server
       })();
     </script>
     <script src="game.js?v=29"></script>
