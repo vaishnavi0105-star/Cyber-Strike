@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Leaderboard — Cyber Strike</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="leaderboard-screen">
+        <div class="leaderboard-inner">
+            <header class="leaderboard-header">
+                <a href="index.html" class="leaderboard-game-name" aria-label="Cyber Strike - Home">CYBER STRIKE</a>
+                <nav class="leaderboard-toolbar" aria-label="Navigation">
+                    <a href="index.html" class="settings-btn settings-btn-icon" aria-label="Home" title="Home">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+                    </a>
+                    <span class="settings-btn settings-btn-icon settings-btn-icon-active" aria-current="page" title="Leaderboard">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6M18 9h1.5a2.5 2.5 0 0 0 0-5H18M4 22h16M8 15v4M12 15v4M16 15v4M10 9V5a2 2 0 0 1 4 0v4M8 9h8"/></svg>
+                    </span>
+                    <a href="index.html" class="settings-btn settings-btn-icon" aria-label="Settings" title="Settings">
+                        <svg class="icon-gear" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+                    </a>
+                </nav>
+            </header>
+            <h2 class="landing-levels-title">LEADERBOARD</h2>
+            <p class="landing-levels-sub">Top scores</p>
+            <div id="leaderboardContent">
+                <p class="loading">Loading…</p>
+            </div>
+        </div>
+    </div>
+    <script>
+      (function() {
+        var h = window.location.hostname;
+        // For local development, point to local server
+        if (!h || h === "localhost" || h === "127.0.0.1" || h === "0.0.0.0") {
+          window.CYBER_STRIKE_API_URL = "http://localhost:3001";
+        }
+        // For production (Vercel), use relative paths which route to the server via rewrites
+        var apiBase = window.CYBER_STRIKE_API_URL ? window.CYBER_STRIKE_API_URL.replace(/\/$/, "") : "";
+        var el = document.getElementById("leaderboardContent");
+        function escapeHtml(s) {
+          var div = document.createElement("div");
+          div.textContent = s;
+          return div.innerHTML;
+        }
+        if (!apiBase && h && h !== "localhost" && h !== "127.0.0.1") {
+          el.innerHTML = "<p class=\"error\">Leaderboard loaded (using relative API paths)</p>";
+        } else if (!apiBase) {
+          el.innerHTML = "<p class=\"error\">Leaderboard requires the server. Start it with: cd server && npm start</p>";
+          return;
+        }
+        fetch(apiBase + "/api/leaderboard?limit=50")
+          .then(function(r) { return r.json(); })
+          .then(function(data) {
+            var list = (data && data.leaderboard && Array.isArray(data.leaderboard)) ? data.leaderboard : [];
+            if (list.length === 0) {
+              el.innerHTML = "<p class=\"empty\">No scores yet. Play to appear here!</p>";
+              return;
+            }
+            function levelStatus(highest, level) {
+              if (level < 5) return highest > level ? "completed" : (highest >= level ? "unlocked" : "locked");
+              return highest >= 5 ? "completed" : "locked";
+            }
+            var rows = list.map(function(e, i) {
+              var name = escapeHtml(e.displayName || "Player");
+              var score = Number(e.bestScore) || 0;
+              var h = Number(e.highestUnlockedLevel) || 1;
+              var badges = [];
+              for (var l = 1; l <= 5; l++) {
+                var status = levelStatus(h, l);
+                if (status === "completed") {
+                  badges.push("<span class=\"leaderboard-badge leaderboard-badge-completed\" title=\"Level " + l + " completed\"><span class=\"leaderboard-badge-icon\" aria-hidden=\"true\">&#127942;</span> L" + l + " Completed</span>");
+                } else if (status === "unlocked") {
+                  badges.push("<span class=\"leaderboard-badge leaderboard-badge-unlocked\" title=\"Level " + l + " unlocked\">L" + l + " Unlocked</span>");
+                } else {
+                  badges.push("<span class=\"leaderboard-badge leaderboard-badge-locked\" title=\"Level " + l + " locked\"><span class=\"leaderboard-badge-icon\" aria-hidden=\"true\">&#128274;</span> L" + l + " Locked</span>");
+                }
+              }
+              var progress = "<div class=\"leaderboard-level-badges\">" + badges.join(" ") + "</div>";
+              return "<tr><td class=\"rank\">" + (i + 1) + "</td><td>" + name + "</td><td class=\"score\">" + score + "</td><td class=\"leaderboard-progress\">" + progress + "</td></tr>";
+            }).join("");
+            el.innerHTML = "<table class=\"leaderboard-table\" aria-label=\"Top scores\"><thead><tr><th>#</th><th>Player</th><th>Score</th><th>Progress</th></tr></thead><tbody>" + rows + "</tbody></table>";
+          })
+          .catch(function() {
+            el.innerHTML = "<p class=\"error\">Could not load leaderboard. Is the server running? (cd server && npm start)</p>";
+          });
+      })();
+    </script>
+</body>
+</html>

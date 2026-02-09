@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cyber Strike — Arcade Shooter</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div id="landingScreen">
+        <div class="landing-inner">
+            <h1 class="landing-title">CYBER STRIKE</h1>
+            <p class="landing-subtitle">Select your mission</p>
+
+            <div class="landing-login">
+                <button id="loginBtn" type="button">Login</button>
+                <button id="signUpBtn" type="button">Sign Up</button>
+                <button id="logoutBtn" type="button" class="hidden">Logout</button>
+                <div id="loginStatus" class="landing-status"></div>
+            </div>
+
+            <div class="landing-levels-wrap">
+                <h2 class="landing-levels-title">Choose mission</h2>
+                <p class="landing-levels-sub">Select a level to deploy</p>
+                <div class="landing-levels">
+                    <button class="level-card" data-level="1" data-level-card>
+                        <span class="level-num">1</span>
+                        <span class="level-label">Deep Space Patrol</span>
+                        <span class="level-desc">Scout the outer sector</span>
+                        <span class="level-lock">Unlocked</span>
+                    </button>
+                    <button class="level-card locked" data-level="2" data-level-card>
+                        <span class="level-num">2</span>
+                        <span class="level-label">Dusk Skies</span>
+                        <span class="level-desc">Atmospheric engagement</span>
+                        <span class="level-lock">Locked</span>
+                    </button>
+                    <button class="level-card locked" data-level="3" data-level-card>
+                        <span class="level-num">3</span>
+                        <span class="level-label">Milky Way Rift</span>
+                        <span class="level-desc">Galactic corridor</span>
+                        <span class="level-lock">Locked</span>
+                    </button>
+                    <button class="level-card locked" data-level="4" data-level-card>
+                        <span class="level-num">4</span>
+                        <span class="level-label">Cyber Dimension</span>
+                        <span class="level-desc">Digital frontier</span>
+                        <span class="level-lock">Locked</span>
+                    </button>
+                    <button class="level-card locked" data-level="5" data-level-card>
+                        <span class="level-num">5</span>
+                        <span class="level-label">The Void</span>
+                        <span class="level-desc">Final stand</span>
+                        <span class="level-lock">Locked</span>
+                    </button>
+                </div>
+            </div>
+
+            <div class="landing-toolbar">
+                <a href="leaderboard.html" class="settings-btn settings-btn-icon" aria-label="Leaderboard" title="Leaderboard">
+                    <svg class="icon-trophy" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6M18 9h1.5a2.5 2.5 0 0 0 0-5H18M4 22h16M8 15v4M12 15v4M16 15v4M10 9V5a2 2 0 0 1 4 0v4M8 9h8"/></svg>
+                </a>
+                <button id="openSettingsBtn" type="button" class="settings-btn settings-btn-icon" aria-label="Settings" title="Settings">
+                    <svg class="icon-gear" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+                </button>
+            </div>
+
+            <div class="landing-actions">
+                <button id="startSelectedLevelBtn" type="button" disabled>Start Level</button>
+            </div>
+        </div>
+    </div>
+    <!-- Settings modal -->
+    <div id="settingsPanel" class="modal-backdrop hidden" data-modal>
+        <div class="settings-panel" data-modal-inner>
+            <h2 class="settings-title">Settings</h2>
+            <div class="settings-body">
+                <label class="settings-field">
+                    <span class="settings-label">Player name</span>
+                    <input id="settingsName" type="text" placeholder="Enter name">
+                </label>
+                <div class="settings-field settings-toggle">
+                    <span class="settings-label">Sound</span>
+                    <button id="settingsMuteToggle" type="button" class="settings-toggle-btn">Mute</button>
+                </div>
+            </div>
+            <div class="settings-actions">
+                <button id="settingsSaveBtn" type="button" class="settings-save-btn">Save</button>
+                <button id="closeSettingsBtn" type="button" class="settings-close-btn">Close</button>
+            </div>
+        </div>
+    </div>
+    <!-- Auth popup (Login / Sign Up) -->
+    <div id="signupPanel" class="modal-backdrop hidden" data-modal>
+        <div class="settings-panel" data-modal-inner>
+            <h2 id="authPanelTitle" class="settings-title">Login</h2>
+            <div class="settings-body">
+                <label class="settings-field">
+                    <span class="settings-label">Name</span>
+                    <input id="signupName" type="text" placeholder="Enter your name" autocomplete="username">
+                </label>
+                <label class="settings-field">
+                    <span class="settings-label">Password</span>
+                    <input id="signupPassword" type="password" placeholder="Password (required when server is on)" autocomplete="current-password">
+                </label>
+                <div id="signupStatus" class="signup-status" aria-live="polite"></div>
+            </div>
+            <div class="settings-actions">
+                <button id="authSubmitBtn" type="button" class="settings-save-btn">Login</button>
+                <button id="signupCancelBtn" type="button" class="settings-close-btn">Cancel</button>
+            </div>
+        </div>
+    </div>
+    <div id="gameWrapper" class="hidden">
+        <!-- Start screen (click or SPACE to start) -->
+        <div id="startScreen" onclick="if(!gameStarted) startGame()">
+            <div class="start-content">
+                <h1 class="game-title">
+                    <span class="title-cyber">CYBER</span>
+                    <span class="title-strike">STRIKE</span>
+                </h1>
+                <p class="tagline">Arcade Shooter</p>
+                <p class="instructions">Arrow keys or WASD to move · SPACE to shoot</p>
+                <p class="instructions-sub">Collect green power-ups for triple shot & shield</p>
+                <p class="instructions-sub">Survive until the boss appears — destroy it to win</p>
+                <button id="startBtn" class="btn-start" onclick="startGame()">PLAY NOW</button>
+                <p class="press-key">or press <kbd>SPACE</kbd></p>
+                <p class="test-level">
+                    <button type="button" class="btn-test" onclick="event.stopPropagation(); startGameAtLevel(3)">Test Level 3</button>
+                    <button type="button" class="btn-test" onclick="event.stopPropagation(); startGameAtLevel(4)">Test Level 4</button>
+                    <button type="button" class="btn-test" onclick="event.stopPropagation(); startGameAtLevel(5)">Test Level 5</button>
+                </p>
+                <p class="mute-row">
+                    <button type="button" id="muteBtn" class="btn-mute" onclick="event.stopPropagation(); toggleMute()">
+                        <span class="sound-icon"></span>
+                    </button>
+                </p>
+            </div>
+            <div class="scanlines"></div>
+        </div>
+
+        <!-- Level intro (mission / level description before starting) -->
+        <div id="levelIntroScreen" class="level-intro hidden">
+            <div class="level-intro-inner">
+                <p class="level-intro-kicker">Mission briefing</p>
+                <h2 id="levelIntroTitle" class="level-intro-title"></h2>
+                <p id="levelIntroDesc" class="level-intro-desc"></p>
+                <p id="levelIntroHint" class="level-intro-hint"></p>
+                <div class="level-intro-countdown-wrap">
+                    <span id="levelIntroCountdown" class="level-intro-countdown">3</span>
+                    <p id="levelIntroCountdownLabel" class="level-intro-countdown-label">Launching in...</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- HUD (visible when game starts) -->
+        <div id="hud" class="hidden">
+            <div class="hud-left">
+                <span class="hud-label">SCORE</span>
+                <span id="scoreValue" class="hud-value">0</span>
+            </div>
+            <div class="hud-center">
+                <span class="hud-label">LEVEL</span>
+                <span id="levelValue" class="hud-value">1</span>
+            </div>
+            <div class="hud-right">
+                <span class="hud-label">LIVES</span>
+                <span id="livesValue" class="hud-value">3</span>
+            </div>
+        </div>
+
+        <!-- Canvas -->
+        <div class="canvas-frame">
+            <canvas id="gameCanvas" width="600" height="400" tabindex="0"></canvas>
+            <!-- Overlay: Game Over / Level Complete (sits on top of canvas) -->
+            <div id="overlay" class="overlay">
+                <div class="overlay-header">
+                    <span class="overlay-game-name">CYBER STRIKE</span>
+                    <div class="overlay-toolbar">
+                        <a href="leaderboard.html" class="settings-btn settings-btn-icon" aria-label="Leaderboard" title="Leaderboard">
+                            <svg class="icon-trophy" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6M18 9h1.5a2.5 2.5 0 0 0 0-5H18M4 22h16M8 15v4M12 15v4M16 15v4M10 9V5a2 2 0 0 1 4 0v4M8 9h8"/></svg>
+                        </a>
+                        <button type="button" id="overlaySettingsBtn" class="settings-btn settings-btn-icon" aria-label="Settings" title="Settings">
+                            <svg class="icon-gear" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+                        </button>
+                    </div>
+                </div>
+                <div class="overlay-inner">
+                    <h1 id="overlayText">
+                        <span class="overlay-title"></span>
+                        <span class="overlay-score"></span>
+                    </h1>
+                    <div id="overlayButtons" class="overlay-buttons">
+                        <button type="button" id="overlayBtn" class="btn-restart">PLAY AGAIN</button>
+                        <button type="button" id="overlayBtn2" class="btn-restart btn-restart-secondary hidden">PLAY AGAIN</button>
+                        <button type="button" id="overlayHomeBtn" class="btn-home" aria-label="Back to main menu">
+                            <svg class="btn-home-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                                <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
+                                <polyline points="9 22 9 12 15 12 15 22"/>
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Control buttons (optional) - type="button" prevents accidental form submit / reload -->
+        <div id="controls">
+            <button type="button" class="ctrl-btn" onclick="move('left')" aria-label="Move left">←</button>
+            <button type="button" class="ctrl-btn" onclick="move('right')" aria-label="Move right">→</button>
+            <button type="button" class="ctrl-btn" onclick="move('up')" aria-label="Move up">↑</button>
+            <button type="button" class="ctrl-btn" onclick="move('down')" aria-label="Move down">↓</button>
+            <button type="button" class="ctrl-btn shoot-btn" onclick="shoot()" aria-label="Shoot">FIRE</button>
+            <button type="button" id="muteBtnInGame" class="ctrl-btn btn-mute" onclick="toggleMute()" aria-label="Mute sound">
+                <span class="sound-icon"></span>
+            </button>
+        </div>
+    </div>
+    <!-- Server API: enabled for local dev. Start server with: cd server && npm start -->
+    <script>
+      (function() {
+        var h = window.location.hostname;
+        // For local development, point to local server
+        if (!h || h === "localhost" || h === "127.0.0.1" || h === "0.0.0.0") {
+          window.CYBER_STRIKE_API_URL = "http://localhost:3001";
+        }
+        // For production (Vercel or other), use relative paths (API_BASE will be empty string)
+        // This allows frontend to call /api/... which Vercel will route to the server
+      })();
+    </script>
+    <script src="game.js?v=29"></script>
+</body>
+</html>
