@@ -8,15 +8,24 @@ const app = express();
 app.use(cors({ origin: true }));
 app.use(express.json());
 
+// Serve static files from root directory FIRST
+app.use(express.static(path.join(__dirname, "..")));
+
 // API routes
 app.use("/api", routes);
 
-// Serve static files from root directory
-app.use(express.static(path.join(__dirname, "..")));
+// Health check
+app.get("/health", (req, res) => {
+  res.json({ status: "ok" });
+});
 
-// Handle SPA routing - serve index.html for all non-API routes
-app.get("*", (req, res) => {
+// Handle SPA routing - only serve index.html for actual page navigation
+app.get("/", (req, res) => {
   res.sendFile(path.join(__dirname, "..", "index.html"));
+});
+
+app.get("/leaderboard", (req, res) => {
+  res.sendFile(path.join(__dirname, "..", "leaderboard.html"));
 });
 
 module.exports = app;
